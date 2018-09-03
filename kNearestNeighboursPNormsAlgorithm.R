@@ -67,7 +67,7 @@ for (j in 1:length(XInt)) { ## This loop only works for odd numbers because it d
     NN5 <- kNN(combinedData, 
                groupMembership, 
                c(XInt[j], YInt[i]), 
-               k = 5, 
+               k = 5, ## We are considering the five nearest neighbours in this version.
                p = 2)
     colMatrix5[i, j] <- names(NN5$results[NN5$results == max(NN5$results)])
   }
