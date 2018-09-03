@@ -64,7 +64,11 @@ for (j in 1:length(XInt)) { ## This loop only works for odd numbers because it d
   ## easy to fix, but why bother since there are so many odd numbers we can choose from (unless we wish to make this a function, which
   ## considering the number of times we use it in this script, might be a worthwhile activity!).
   for (i in 1:length(YInt)) {
-    NN5 <- kNN(combinedData, groupMembership, c(XInt[j], YInt[i]), k = 5, p = 2)
+    NN5 <- kNN(combinedData, 
+               groupMembership, 
+               c(XInt[j], YInt[i]), 
+               k = 5, 
+               p = 2)
     colMatrix5[i, j] <- names(NN5$results[NN5$results == max(NN5$results)])
   }
 }
