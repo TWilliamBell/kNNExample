@@ -1,6 +1,6 @@
 ## Naive KNN implementation
 
-set.seed(12)
+set.seed(12) ## Do this to make a reproducible simulated dataset
 
 simulatedDataGroup1 <- data.frame(X = rnorm(100), Y = rnorm(100)) ## This is the "reds" who are a group of widgits displaying values one
 ## would expect to see from a bivariate regular normal (mu = 0, sd = 1) between two independent variables.
