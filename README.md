@@ -1,6 +1,6 @@
 # kNNExample
 
-Yes, k-nearest neighbour algorithms have been better implemented in XYZ package probably, but I am trying to get at the actual methods used underneath the hood. For an example of this using established functions (the class package iirc), see for instance this [repository](https://github.com/DworkinLab/Wing_Biometrics_2015).
+Yes, k-nearest neighbour algorithms have been better implemented in XYZ package probably, but I am trying to get at the actual methods used underneath the hood. For an example of this using established functions (the class package iirc), see for instance [this repository](https://github.com/DworkinLab/Wing_Biometrics_2015).
 
 This repository is an attempt to implement a naive k-Nearest Neighbours algorithm and apply it to a kind of high-dimensional biological data (geometric morphometric analysis - esp. Generalized Procrustes Analysis).  There is one R script that contains the implementation of this functions on simulated data, another that contains just the functions, one that applies it to a geometric morphometric dataset, and then pdfs of the output on a simulated dataset based on multiple values of k.
 
