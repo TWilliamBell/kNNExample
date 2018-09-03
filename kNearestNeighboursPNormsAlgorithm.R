@@ -20,10 +20,9 @@ dev.off()
 
 distNeighbours <- function(classifiedData, unclassifiedPoint, p = c(1L, 2L, Inf)) { ## This function takes in all the data we have so far,
   ## a point we are interested in looking at, and a p-norm (input can be any natural number or Inf), and it outputs the distance using that
-  ## norm from the unclassified point of interest to every classified point.  Since we calculate these values in our KNN implementation,
-  ## the algorithm has a computational complexity of O(n^2), which is not the best implementation, so I have labelled this a naive
-  ## implementation.  It is still "fast enough" for the datasets we consider (the ~6400 iterations of it in each nested loop using 200 
-  ## data points takes about 6 seconds).
+  ## norm from the unclassified point of interest to every classified point.  Since we calculate these values in our KNN implementation, 
+  ## I believe this has less-than-ideal computational complexity, so I have labelled this a naive implementation.  It is still "fast 
+  ## enough" for the datasets we consider (the ~6400 iterations of it in each nested loop using 200 data points takes about 6 seconds).
   di <- classifiedData
   for (i in 1:length(unclassifiedPoint)) { ## This produces the absolute differences in all dimensions of our point from every other point.
     di[ , i] <- abs(classifiedData[ , i]-unclassifiedPoint[i])
