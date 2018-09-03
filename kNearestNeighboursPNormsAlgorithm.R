@@ -31,7 +31,7 @@ distNeighbours <- function(classifiedData, unclassifiedPoint, p = c(1L, 2L, Inf)
   }
   else {
     exponentiated <- di^2
-    distance <- sqrt(rowSums(di))
+    distance <- sqrt(rowSums(exponentiated))
     warning("No or unknown distance measure given, defaulting to p=2/euclidean norm.")
   }
   distance
