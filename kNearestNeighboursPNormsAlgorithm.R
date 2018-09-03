@@ -2,55 +2,68 @@
 
 set.seed(12)
 
-simulatedDataGroup1 <- data.frame(X = rnorm(100), Y = rnorm(100))
-simulatedDataGroup2 <- data.frame(X = rnorm(100, mean = 2), Y = rnorm(100, mean = 2))
+simulatedDataGroup1 <- data.frame(X = rnorm(100), Y = rnorm(100)) ## This is the "reds" who are a group of widgits displaying values one
+## would expect to see from a bivariate regular normal (mu = 0, sd = 1) between two independent variables.
+simulatedDataGroup2 <- data.frame(X = rnorm(100, mean = 2), Y = rnorm(100, mean = 2)) ## This is the "blues" who are a group of widgits
+## with a similar distribution but ofset in both variables by 2 up and to the right.
 
 combinedData <- data.frame(matrix(nrow = 200, ncol = 2))                                                                    
 combinedData[1:100, ] <- simulatedDataGroup1
-combinedData[101:200, ] <- simulatedDataGroup2
-groupMembership <- c(rep("red", 100), rep("blue", 100))
+combinedData[101:200, ] <- simulatedDataGroup2 ## This is our complete simulated dataset
+groupMembership <- c(rep("red", 100), rep("blue", 100)) ## ... and our record of their group membership.
 
-pdf("rawData.pdf")
+pdf("rawData.pdf") ## To give an idea of what this data actually looks like, I've produced a pdf of the entire simulated dataset.
 
 plot(combinedData, col = groupMembership, main = "Raw Data")
 
 dev.off()
 
-distNeighbours <- function(classifiedData, unclassifiedPoint, p = c(1L, 2L, Inf)) {
+distNeighbours <- function(classifiedData, unclassifiedPoint, p = c(1L, 2L, Inf)) { ## This function takes in all the data we have so far,
+  ## a point we are interested in looking at, and a p-norm (input can be any natural number or Inf), and it outputs the distance using that
+  ## norm from the unclassified point of interest to every classified point.  Since we calculate these values in our KNN implementation,
+  ## the algorithm has a computational complexity of O(n^2), which is not the best implementation, so I have labelled this a naive
+  ## implementation.  It is still "fast enough" for the datasets we consider (the ~6400 iterations of it in each nested loop using 200 
+  ## data points takes about 6 seconds).
   di <- classifiedData
-  for (i in 1:length(unclassifiedPoint)) {
+  for (i in 1:length(unclassifiedPoint)) { ## This produces the absolute differences in all dimensions of our point from every other point.
     di[ , i] <- abs(classifiedData[ , i]-unclassifiedPoint[i])
   }
-  if (is.finite(p)) {
+  if (is.finite(p)) { ## If p is a natural number (not the infinity norm)...
     exponentiated <- di^p
     distance <- rowSums(exponentiated)
-    distance <- distance^(1/p)
+    distance <- distance^(1/p) ## Then do sum(row^p)^(1/p) (the p-norm), if p=2 this is often called the l2 or Euclidean norm, if p=1 this
+    ## is the l1 or taxicab norm.
   }
-  else if (is.infinite(p)) {
-    distance <- apply(di, 1, max)
+  else if (is.infinite(p)) { ## If p is Inf (infinity)...
+    distance <- apply(di, 1, max) ## Then do max(row), which is the p-norm as p -> +infinity, thus we've implemented every p-norm in this
+    ## function, we could have implemented other distance measures as well, but I think these are the most common numeric vector norms, and
+    ## also the most relevant for my purposes.
   }
-  else {
+  else { ## And for the indecisive...
     exponentiated <- di^2
-    distance <- sqrt(rowSums(exponentiated))
-    warning("No or unknown distance measure given, defaulting to p=2/euclidean norm.")
+    distance <- sqrt(rowSums(exponentiated)) ## We have the l2 or Euclidean norm as a default, but...
+    warning("No or unknown distance measure given, defaulting to p=2/euclidean norm.") ## we better warn them of their indecision.
   }
   distance
 }
 
-kNN <- function(classifiedData, classification, unclassifiedPoint, k, p = 2) {
-  distances <- distNeighbours(classifiedData, unclassifiedPoint, p)
-  kthneighbour <- sort(distances)[k]
-  kNN <- classification[distances <= kthneighbour]
-  conclusion <- table(kNN)/k
-  list(results = conclusion, k = k, p = p)
+kNN <- function(classifiedData, classification, unclassifiedPoint, k, p = 2) { ## And our piece de resistance, the KNN algorithm
+  distances <- distNeighbours(classifiedData, unclassifiedPoint, p) ## Once we have the distances to every point
+  kthneighbour <- sort(distances)[k] ## Find the distance to the kth closest point
+  kNN <- classification[distances <= kthneighbour] ## And find out which group all the points at most that distance away are
+  conclusion <- table(kNN)/k ## Collect the votes (each of those neighbours gets a vote as to what a given point is based on what they 
+  ## are) and make the values into proportions
+  list(results = conclusion, k = k, p = p) ## And return results, including some information on how we collected the results
 }
 
-XInt <- seq(-2.5, 4.5, by = 0.1)
+XInt <- seq(-2.5, 4.5, by = 0.1) ## Choose some x and y values that span the data to use to map how this would classify areas of the space
 YInt <- seq(-3, 6, by = 0.1)
 
 colMatrix5 <- matrix(nrow = length(YInt), ncol = length(XInt))
 
-for (j in 1:length(XInt)) { ## This loop only works for odd numbers because if doesn't have a case in order to handle a tie.
+for (j in 1:length(XInt)) { ## This loop only works for odd numbers because it doesn't have a case in order to handle a tie, that is very
+  ## easy to fix, but why bother since there are so many odd numbers we can choose from (unless we wish to make this a function, which
+  ## considering the number of times we use it in this script, might be a worthwhile activity!).
   for (i in 1:length(YInt)) {
     NN5 <- kNN(combinedData, groupMembership, c(XInt[j], YInt[i]), k = 5, p = 2)
     colMatrix5[i, j] <- names(NN5$results[NN5$results == max(NN5$results)])
@@ -65,10 +78,11 @@ for (i in ((1:length(XInt))-1)) {
   Xwhich[(1+i*length(YInt)):(length(YInt)+i*length(YInt))] <- (i+1)
 }
 
-pointLocations <- data.frame(X = XInt[Xwhich], Y = rep(YInt, length(XInt)))
-coloursPoints5 <- c(colMatrix5)
+pointLocations <- data.frame(X = XInt[Xwhich], Y = rep(YInt, length(XInt))) ## The coordinates of all the points we found the 'majority
+## vote' for in our nested loop.
+coloursPoints5 <- c(colMatrix5) ## The 'majority votes' converted to a vector
 
-pdf("fiveNearestNeighbours.pdf", height = 9, width = 7)
+pdf("fiveNearestNeighbours.pdf", height = 9, width = 7) ## Let's look at the results as a plot.
 
 plot(pointLocations, col = coloursPoints5, cex = 0.3, main = "Classification Map based on 5NN")
 
@@ -76,9 +90,13 @@ dev.off()
 
 colMatrix1 <- matrix(nrow = length(YInt), ncol = length(XInt))
 
-for (j in 1:length(XInt)) {
+for (j in 1:length(XInt)) { ## Same comment as previous loop
   for (i in 1:length(YInt)) {
-    NN1 <- kNN(combinedData, groupMembership, c(XInt[j], YInt[i]), k = 1, p = 2)
+    NN1 <- kNN(combinedData, 
+               groupMembership, 
+               c(XInt[j], YInt[i]), 
+               k = 1, 
+               p = 2)
     colMatrix1[i, j] <- names(NN1$results[NN1$results == max(NN1$results)])
   }
 }
@@ -95,7 +113,7 @@ dev.off()
 
 colMatrix11 <- matrix(nrow = length(YInt), ncol = length(XInt))
 
-for (j in 1:length(XInt)) {
+for (j in 1:length(XInt)) { ## Same comment as previous loop
   for (i in 1:length(YInt)) {
     NN11 <- kNN(combinedData, 
                groupMembership, 
