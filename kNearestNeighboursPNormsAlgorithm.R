@@ -57,6 +57,8 @@ for (j in 1:length(XInt)) { ## This loop only works for odd numbers because if d
   }
 }
 
+rm(NN5, i, j)
+
 Xwhich <- rep(NA_integer_, length(colMatrix5))
 
 for (i in ((1:length(XInt))-1)) {
@@ -76,10 +78,12 @@ colMatrix1 <- matrix(nrow = length(YInt), ncol = length(XInt))
 
 for (j in 1:length(XInt)) {
   for (i in 1:length(YInt)) {
-    NN5 <- kNN(combinedData, groupMembership, c(XInt[j], YInt[i]), k = 1, p = 2)
-    colMatrix1[i, j] <- names(NN5$results[NN5$results == max(NN5$results)])
+    NN1 <- kNN(combinedData, groupMembership, c(XInt[j], YInt[i]), k = 1, p = 2)
+    colMatrix1[i, j] <- names(NN1$results[NN1$results == max(NN1$results)])
   }
 }
+
+rm(NN1, i, j)
 
 coloursPoints1 <- c(colMatrix1)
 
@@ -93,14 +97,16 @@ colMatrix11 <- matrix(nrow = length(YInt), ncol = length(XInt))
 
 for (j in 1:length(XInt)) {
   for (i in 1:length(YInt)) {
-    NN5 <- kNN(combinedData, 
+    NN11 <- kNN(combinedData, 
                groupMembership, 
                c(XInt[j], YInt[i]), 
                k = 11, 
                p = 2)
-    colMatrix11[i, j] <- names(NN5$results[NN5$results == max(NN5$results)])
+    colMatrix11[i, j] <- names(NN11$results[NN11$results == max(NN11$results)])
   }
 }
+
+rm(NN11, i, j)
 
 coloursPoints11 <- c(colMatrix11)
 
