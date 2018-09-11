@@ -20,9 +20,9 @@ set.seed(12) ## Make stochastic calculations reproducible
 
 library(data.table) ## Read in the Houle data quickly
 library(geomorph) ## Perform Generalized Procrustes Analysis and related data cleaning quickly
-source("./kNNFunctions.R")
+source("../materialsKNNForGM/kNNFunctions.R")
 
-Houle <- fread("./Houle_et_al_2017.csv")
+Houle <- fread("../materialsKNNForGM/Houle_et_al_2017.csv")
 Houle <- Houle[grepl("MELANOGASTER", Houle$Species), ] ## Since Houle considers >100 species we will narrow down our analysis somewhat 
 ## (though a good follow up would be the multi-cluster problem of classifying individuals into each species)
 
