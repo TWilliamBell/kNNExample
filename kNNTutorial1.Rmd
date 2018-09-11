@@ -1,5 +1,5 @@
 ---
-title: "kNN for P-Norms Function"
+title: "kNN with P-Norms Function"
 author: "William Bell"
 date: '2018-09-10'
 output: html_document
