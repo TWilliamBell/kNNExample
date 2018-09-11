@@ -74,7 +74,7 @@ print(c(Actual = ProportionPredictedCorrectlyNN5, Predicted = NullExpectedCorrec
 
 The final statement allows you to compare the actual correct predictions, and the null prediction rate if the neighbours were classified in proportion to the proportions in the training dataset.
 
-So the result is that we correctly predicted the sex of an individual in this sample 2/15ths of the time (possibly that low because there are more females in the sample since it is unbalanced and so we correctly predicted almost all the females correctly and predicted some of the males were female). Let's try a few other levels of prediction. In order to correct for this, I am going to try a smaller number, just using nearest neighbours. It is better than our null expectation, but it would take a permutation test or a bootstrap to see if it is significantly better than the null expectation.
+So the result is that we correctly predicted the sex of an individual in this sample 13/15ths of the time (possibly that low because there are more females in the sample since it is unbalanced and so we correctly predicted almost all the females correctly and predicted some of the males were female). Let's try a few other levels of prediction. In order to correct for this, I am going to try a smaller number, just using nearest neighbours. It is better than our null expectation, but it would take a permutation test or a bootstrap to see if it is significantly better than the null expectation.
 
 ``` r
 TestKNNClassification1 <- rep(NA_character_, length(TestActualClassification))
