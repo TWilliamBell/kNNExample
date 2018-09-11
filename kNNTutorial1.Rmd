@@ -5,7 +5,7 @@ date: '2018-09-10'
 output: html_document
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include=FALSE, echo = FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -71,7 +71,7 @@ Your choice of distance measure (in this case, p-norms) will depend on your data
 
 Next I show what the classifications would be for any novel points, by location, classifying the space as either red or blue starting with 5 nearest neighbours.
 
-```{r 5nn}
+```{r 5nn, echo = FALSE}
 
 XInt <- seq(-2.5, 4.5, by = 0.1) ## Choose some x and y values that span the data to use to map how this would classify areas of the space
 YInt <- seq(-3, 6, by = 0.1)
@@ -109,7 +109,7 @@ plot(pointLocations, col = coloursPoints5, cex = 0.3, main = "Classification Map
 
 If we think that there are going to be more local areas where the points are a different category, or if there is an unbalanced dataset, it might be advisable to use a smaller number for k.
 
-```{r 1nn}
+```{r 1nn, echo = FALSE}
 
 colMatrix1 <- matrix(nrow = length(YInt), ncol = length(XInt))
 
@@ -134,7 +134,7 @@ plot(pointLocations, col = coloursPoints1, cex = 0.3, main = "Classification Map
 
 If we think that there will be fewer, larger clusters for each group, we might be better advised to use larger values for k.  This 'smoothes out' the classification map more.
 
-```{r 11nn}
+```{r 11nn, echo = FALSE}
 
 colMatrix11 <- matrix(nrow = length(YInt), ncol = length(XInt))
 
