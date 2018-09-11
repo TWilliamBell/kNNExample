@@ -1,3 +1,5 @@
+## k-Nearest Neighbours Tutorial 3
+
 The k-nearest neighbours function I developed in a previous script was developed in order to illustrate the k-nearest neighbours algorithm. In this script on the other hand, we will use the class library. The class library offers multiple functions for the purposes of classification, using k-NN but with many functions for the purposes of doing cross-validation, etc.
 
 Consider the R code for the function:
