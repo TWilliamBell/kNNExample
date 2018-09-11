@@ -1,3 +1,5 @@
+## k-Nearest Neighbours Tutorial 1
+
 This is my attempt to implement the k-nearest neighbours algorithm used often in data science for classification. I start by simulating a dataset made of two clusters that are partially overlapping.
 
 ``` r
