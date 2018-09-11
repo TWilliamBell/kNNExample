@@ -12,7 +12,7 @@ combinedData[1:100, ] <- simulatedDataGroup1
 combinedData[101:200, ] <- simulatedDataGroup2 ## This is our complete simulated dataset
 groupMembership <- c(rep("red", 100), rep("blue", 100)) ## ... and our record of their group membership.
 
-pdf("./Graphics/rawData.pdf") ## To give an idea of what this data actually looks like, I've produced a pdf of the entire simulated dataset.
+pdf("../Graphics/rawData.pdf") ## To give an idea of what this data actually looks like, I've produced a pdf of the entire simulated dataset.
 
 plot(combinedData, col = groupMembership, main = "Raw Data")
 
@@ -85,7 +85,7 @@ pointLocations <- data.frame(X = XInt[Xwhich], Y = rep(YInt, length(XInt))) ## T
 ## vote' for in our nested loop.
 coloursPoints5 <- c(colMatrix5) ## The 'majority votes' converted to a vector
 
-pdf("./Graphics/fiveNearestNeighbours.pdf", height = 9, width = 7) ## Let's look at the results as a plot.
+pdf("../Graphics/fiveNearestNeighbours.pdf", height = 9, width = 7) ## Let's look at the results as a plot.
 
 plot(pointLocations, col = coloursPoints5, cex = 0.3, main = "Classification Map based on 5NN")
 
@@ -108,7 +108,7 @@ rm(NN1, i, j)
 
 coloursPoints1 <- c(colMatrix1)
 
-pdf("./Graphics/nearestNeighbour.pdf", height = 9, width = 7)
+pdf("../Graphics/nearestNeighbour.pdf", height = 9, width = 7)
 
 plot(pointLocations, col = coloursPoints1, cex = 0.3, main = "Classification Map based on 1NN")
 
@@ -131,7 +131,7 @@ rm(NN11, i, j)
 
 coloursPoints11 <- c(colMatrix11)
 
-pdf("./Graphics/elevenNearestNeighbours.pdf", height = 9, width = 7)
+pdf("../Graphics/elevenNearestNeighbours.pdf", height = 9, width = 7)
 
 plot(pointLocations, col = coloursPoints11, cex = 0.3, main = "Classification Map based on 11NN")
 
