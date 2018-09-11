@@ -1,5 +1,5 @@
 ---
-title: "KNNTutorial3"
+title: "k-Nearest Neighbours Tutorials 3"
 author: "William Bell"
 date: '2018-09-11'
 output: 
