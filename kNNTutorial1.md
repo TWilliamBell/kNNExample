@@ -21,7 +21,7 @@ groupMembership <- c(rep("red", 100), rep("blue", 100)) ## ... and our record of
 plot(combinedData, col = groupMembership, main = "Raw Data")
 ```
 
-![](kNNTutorial1_files/figure-markdown_github/simulated-1.png)
+![](Graphics/simulated-1.png)
 
 Next I define the functions of interest. The first function takes in all the classified data we have so far, a point we are interested in looking at, and a choice p-norm (input can be any natural number or Inf), and it outputs the distance using that norm from the unclassified point of interest to every classified point. This is "fast enough" for the datasets we consider (the ~6400 iterations of it in each nested loop using 200 data points takes about 6 seconds), but it isn't the ideal implementation, we will consider some more blackbox-y implementations later. The second function uses the first, it finds the k nearest points using the distances calculated with the first, and uses the classifications of those to 'vote' on the classification of our final point.
 
@@ -98,7 +98,7 @@ coloursPoints5 <- c(colMatrix5) ## The 'majority votes' converted to a vector
 plot(pointLocations, col = coloursPoints5, cex = 0.3, main = "Classification Map based on 5NN")
 ```
 
-![](kNNTutorial1_files/figure-markdown_github/5nn-1.png)
+![](Graphics/5nn-1.png)
 
 If we think that there are going to be more local areas where the points are a different category, or if there is an unbalanced dataset, it might be advisable to use a smaller number for k.
 
@@ -123,7 +123,7 @@ coloursPoints1 <- c(colMatrix1)
 plot(pointLocations, col = coloursPoints1, cex = 0.3, main = "Classification Map based on 1NN")
 ```
 
-![](kNNTutorial1_files/figure-markdown_github/1nn-1.png)
+![](Graphics/1nn-1.png)
 
 If we think that there will be fewer, larger clusters for each group, we might be better advised to use larger values for k. This 'smoothes out' the classification map more.
 
@@ -148,4 +148,4 @@ coloursPoints11 <- c(colMatrix11)
 plot(pointLocations, col = coloursPoints11, cex = 0.3, main = "Classification Map based on 11NN")
 ```
 
-![](kNNTutorial1_files/figure-markdown_github/11nn-1.png)
+![](Graphics/11nn-1.png)
