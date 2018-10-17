@@ -1,5 +1,3 @@
-## k-Nearest Neighbours Tutorial 2
-
 kNN is one of the easiest Machine Learning algorithms (ML) to implement for the purposes of work in geometric morphometrics (GM), in part because kNN is easy to implement, and in part because many of the conceptual questions are already answered for you: Generalized Procrustes Analysis, the most common method of superimposition in GM involves projecting the coordinates into a euclidean tangent space to allow the use of the l2 norm to calculate Procrustes Distances. With this conceptual question out of the way, we may focus on how we wish to implement the procedure, not on identifying an appropriate metric for the space. In this script, we show an easy implementation of kNN of even greater generality than this (it is able to implement any p-norm, including l2) but which is able to do the work we are interested in, and we apply it to a real-life dataset (Houle et al 2017, available on Dryad Digital Repository, an academic data sharing service for biological data).
 
 For those of you who do not know what geometric morphometrics are but are here because you want to try your hand at Data Science/ML, the basic idea is this: you're taking a bunch of biological samples and trying to describe their shape by looking at 'landmarks' that are shared between the wings, taking their X-Y(-Z) coordinates, adjusting them all to be the same size (size != shape afterall), and trying to make them align as closely as possible without warping their shape. Then the results are projected into a euclidean space so that we can use a simple and computationally easy distance measure (Procrustes Distances, basically Euclidean distances for shape data). This allows us to quantify differences in shape, esp. between biological organisms.
@@ -74,7 +72,7 @@ print(c(Actual = ProportionPredictedCorrectlyNN5, Predicted = NullExpectedCorrec
 
 The final statement allows you to compare the actual correct predictions, and the null prediction rate if the neighbours were classified in proportion to the proportions in the training dataset.
 
-So the result is that we correctly predicted the sex of an individual in this sample 13/15ths of the time (possibly that low because there are more females in the sample since it is unbalanced and so we correctly predicted almost all the females correctly and predicted some of the males were female). Let's try a few other levels of prediction. In order to correct for this, I am going to try a smaller number, just using nearest neighbours. It is better than our null expectation, but it would take a permutation test or a bootstrap to see if it is significantly better than the null expectation.
+So the result is that we correctly predicted the sex of an individual in this sample 4/5ths of the time (possibly that low because there are more females in the sample since it is unbalanced and so we correctly predicted almost all the females correctly and predicted some of the males were female). Let's try a few other levels of prediction. In order to correct for this, I am going to try a smaller number, just using nearest neighbours. It is better than our null expectation, but it would take a permutation test or a bootstrap to see if it is significantly better than the null expectation.
 
 ``` r
 TestKNNClassification1 <- rep(NA_character_, length(TestActualClassification))
@@ -95,6 +93,6 @@ print(c(Actual = ProportionPredictedCorrectlyNN1, Predicted = NullExpectedCorrec
     ##    Actual Predicted 
     ## 0.7666667 0.5546631
 
-This is slightly lower (exactly 3/4s), but as to be expected, with an increased true positive rate for males, there is a higher false negative rate for females.
+This is slightly higher (exactly 5/6ths), but as to be expected, with an increased true positive rate for males, there is a higher false negative rate for females.
 
 Unfortunately we cannot produce classification maps like I made in our previous practice script since the data is 24 dimensional (see ncol(GPAHoule)). It would be possible to do this analysis over with the first two Principal Components (at least one of which is almost assuredly related to sex due to the sexual dimorphism in Fruit Fly wings) and then classify in that space and produce classification maps, but that is outside the scope of our work here.

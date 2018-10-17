@@ -1,4 +1,7 @@
-## k-Nearest Neighbours Tutorial 3
+KNNTutorial3
+================
+William Bell
+2018-09-11
 
 The k-nearest neighbours function I developed in a previous script was developed in order to illustrate the k-nearest neighbours algorithm. In this script on the other hand, we will use the class library. The class library offers multiple functions for the purposes of classification, using k-NN but with many functions for the purposes of doing cross-validation, etc.
 
@@ -37,7 +40,7 @@ Consider the R code for the function:
     ##         attr(res, "prob") <- Z$pr
     ##     res
     ## }
-    ## <bytecode: 0x7fee9e1cb5e8>
+    ## <bytecode: 0x7f9b42b79d80>
     ## <environment: namespace:class>
 
 We see near the end the function .C() used to call compiled C++ code, in this case the function VR\_knn built into the package. This is the real heavy lifter, doing the majority of the computationally intensive work. This makes the function kind of blackbox-y like I've said, but compiled C++ code is dramatically faster than code in an interpreted language like R.
@@ -63,8 +66,8 @@ benchmark(kNN(classifiedData = combinedData,
     ## 1 kNN(classifiedData = combinedData, classification = groupMembership, unclassifiedPoint = c(1, 1), p = 2, k = 5)
     ## 2                                          knn(train = combinedData, test = c(1, 1), k = 5, cl = groupMembership)
     ##   replications elapsed relative user.self sys.self user.child sys.child
-    ## 1          100   0.105    5.833     0.093    0.010          0         0
-    ## 2          100   0.018    1.000     0.018    0.001          0         0
+    ## 1          100   0.104    5.778     0.093    0.011          0         0
+    ## 2          100   0.018    1.000     0.017    0.000          0         0
 
 ``` r
 benchmark(kNN(classifiedData = combinedData, 
@@ -83,10 +86,10 @@ benchmark(kNN(classifiedData = combinedData,
     ## 1 kNN(classifiedData = combinedData, classification = groupMembership, unclassifiedPoint = c(1, 1), p = 2, k = 11)
     ## 2                                          knn(train = combinedData, test = c(1, 1), k = 11, cl = groupMembership)
     ##   replications elapsed relative user.self sys.self user.child sys.child
-    ## 1          100   0.075    4.412     0.073    0.002          0         0
-    ## 2          100   0.017    1.000     0.017    0.000          0         0
+    ## 1          100   0.070    4.375     0.069    0.001          0         0
+    ## 2          100   0.016    1.000     0.016    0.000          0         0
 
-What we see is that the class package's function is three to six times faster for a relatively small dataset, a single training point, and a relatively small k on my computer. If we had larger values for the other parameters we would expect larger jumps in those speed enhancements as well. There are other advantages as well, since knn is tested well enough to have a great deal more overhead in place to catch potential errors (like test and training data of different dimensionality - mine would give an indexing error in response to that), more eyes have gone over the code for it, it has more options in certain capacities, and generally it is good practice to use established functions. Mine also can only applied to one point at a time (though it would be very simple to apply it down test dataset).
+What we see is that the class package's function is four times faster for a relatively small dataset, a single training point, and a relatively small k on my computer. If we had larger values for the other parameters we would expect larger jumps in those speed enhancements as well. There are other advantages as well, since knn is tested well enough to have a great deal more overhead in place to catch potential errors (like test and training data of different dimensionality - mine would give an indexing error in response to that), more eyes have gone over the code for it, it has more options in certain capacities, and generally it is good practice to use established functions. Mine also can only applied to one point at a time (though it would be very simple to apply it down test dataset).
 
 The knn function in the class library makes one choice that makes life simpler but not necessarily in a good way: it chooses what distance measure you're using. The knn function only does euclidean distances, unlike my implementation which is designed to do any p-norm. However for many purposes this isn't a problem, since for instance in the geometric morphometrics dataset I worked on in the previous tutorial, it was natural to use l2/euclidean distances.
 
