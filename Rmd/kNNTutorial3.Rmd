@@ -2,9 +2,7 @@
 title: "k-Nearest Neighbours Tutorials 3"
 author: "William Bell"
 date: '2018-09-11'
-output: 
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
